@@ -198,15 +198,18 @@ public class Main {
         String query = "select * from customer ;";
         PreparedStatement stmt = con.prepareStatement(query);
         ResultSet rs = stmt.executeQuery(query);
+        int valid = 0;
         while(rs.next()) {
             String name = rs.getString("name");
             if(Objects.equals(args[1], name)){
                 System.out.println("Customer found");
                 System.out.println(" cust_id:"+rs.getInt("cust_id")+ "\n name:" +rs.getString("name") +"\n address:" +rs.getString("address") + "\n ph_no:" +rs.getString("phone_no"));
-                return;
+                valid = 1;
             }
         }
-        System.out.println("Customer with that first name is not found");
+        if(valid == 0) {
+            System.out.println("Customer with that first name is not found");
+        }
     }
 
     public static void main(String[] args){
