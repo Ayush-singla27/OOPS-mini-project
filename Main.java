@@ -2,6 +2,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
 abstract class car{
@@ -93,14 +98,18 @@ public class Main {
             System.out.println("Program initialised! tables have been made !");
         }
         catch (Exception e){
-            System.out.println("Program have already been initialised!");
+            System.out.println("Program have already been initialised! ");
         }
     }
     public static void printHelp(){
         System.out.println("Help for commands:");
-        System.out.println("-initialize for initializing the program");
-        System.out.println("-b <recordType> <string> for operation on <recordType> and search <string>");
-        System.out.println("-h (or any) for help menu");
+        System.out.println("| -initialize | to initializing the program");
+        System.out.println("| -register <name> <address> <mobile no> | to make an account");
+        System.out.println("| -booking <Cust_id> <Car_no> <start date> <end date> | to book a car, date should be in format(yyyy-MM-dd)");
+        System.out.println("| -cancel <Cust_id> <Car_no> | to cancel your car booking");
+        System.out.println("| -searchLessThanAmount <Amount> | to search for car less that cetain amount of rent ");
+        System.out.println("| -searchFirstName <FirstName> | to search customer using first name");
+
     }
 
     public static void register(String[] args) throws SQLException, ClassNotFoundException, IOException {
@@ -136,7 +145,7 @@ public class Main {
             st.close();
         }
     }
-    public static void booking(String[] args) throws SQLException, ClassNotFoundException, IOException {
+    public static void booking(String[] args) throws SQLException, ClassNotFoundException, IOException, ParseException {
         Connection con = ConnectionFactory.createConnection();
         Statement st3 = con.createStatement();
         Statement st4 = con.createStatement();
@@ -176,12 +185,20 @@ public class Main {
                 }
             }
             if (valid == 1) {
-                PreparedStatement ps1 = con.prepareStatement("insert into rental(cust_id, car_no,start,end) values(?,?,?,?)");
+                PreparedStatement ps1 = con.prepareStatement("insert into rental(cust_id, car_no,start,end,total_fee) values(?,?,?,?,?)");
 
+                int charges = rs5.getInt("charges");
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+                LocalDate start = LocalDate.parse(args[3], formatter);
+                LocalDate end = LocalDate.parse(args[4], formatter);
+                Period period = Period.between(start, end);
+                int aa = period.getDays() * charges;
                 ps1.setInt(1, x);
                 ps1.setString(2, args[2]);
                 ps1.setString(3, args[3]);
                 ps1.setString(4, args[4]);
+                ps1.setInt(5, aa);
                 ps1.executeUpdate();
                 System.out.println("Car Booked");
 
@@ -237,6 +254,38 @@ public class Main {
 
     }
 
+    public static void cancel(String[] args) throws SQLException, ClassNotFoundException, IOException {
+        Connection con = ConnectionFactory.createConnection();
+        Statement st = con.createStatement();
+
+        String query = "select * from rental;";
+
+        ResultSet rs = st.executeQuery(query);
+
+        int valid =0;
+        while(rs.next()){
+            int cust_id= rs.getInt("cust_id");
+            int x=Integer.parseInt(args[1]);
+            String car_no= rs.getString("car_no");
+            if(x!=cust_id && !(Objects.equals(args[2], car_no))){
+                System.out.println("Car is not booked on ur cust_id\n");
+                valid = 0;
+                break;
+            }
+            else{
+                valid=1;
+            }
+        }
+        if(valid ==1){
+            PreparedStatement ps = con.prepareStatement("delete from rental where cust_id=? and car_no=?");
+            ps.setInt(1, Integer.parseInt(args[1]));
+            ps.setString(2, args[2]);
+            ps.executeUpdate();
+            System.out.println("Registration Cancelled");
+            st.close();
+        }
+    }
+
     public static void main(String[] args){
         switch (args[0]) {
             case "-initialize":
@@ -269,6 +318,14 @@ public class Main {
             case "-carAmountLessThan":
                 try{
                     carAmountLessThan(args);
+                }
+                catch (Exception a){
+                    a.printStackTrace();
+                }
+                break;
+            case "-cancel":
+                try{
+                    cancel(args);
                 }
                 catch (Exception a){
                     a.printStackTrace();
