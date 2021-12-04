@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1991e73a-2926-4376-8e68-2318e84ecbc2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/What to do" beforeDir="false" afterPath="$PROJECT_DIR$/What to do" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carData.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/ConnectionFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/What to do" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OOPS-mini-project/What to do" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/car.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/carData.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/customer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/discountCar.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OOPS-mini-project/rental.class" beforeDir="false" />
-    </list>
+    <list default="true" id="1991e73a-2926-4376-8e68-2318e84ecbc2" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
